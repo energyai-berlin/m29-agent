@@ -57,7 +57,7 @@ class AgentChat:
     @agent.event
     async def messages(self, messages_event: MessagesEvent) -> list[Message]:
         log.info(f"Received messages: {messages_event.messages}")
-        self.messages.extend(messages_event.messages)
+        #self.messages.extend(messages_event.messages)
 
         log.info(f"Calling llm_chat with messages: {self.messages}")
         try:
@@ -70,8 +70,8 @@ class AgentChat:
             error_message = f"Error during llm_chat: {e}"
             raise NonRetryableError(error_message) from e
         else:
-            self.messages.append(assistant_message)
-            return self.messages
+            #self.messages.append(assistant_message)
+            return assistant_message
 
     @agent.event
     async def end(self, end: EndEvent) -> EndEvent:
