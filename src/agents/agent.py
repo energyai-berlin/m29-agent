@@ -5,6 +5,13 @@ from restack_ai.agent import NonRetryableError, agent, import_functions, log
 
 with import_functions():
     from src.functions.llm_chat import LlmChatInput, Message, llm_chat
+import json
+
+def parse_json_to_dict(json_str: str) -> dict:
+    try:
+        return json.loads(json_str)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON: {e}") from e
 
 
 class MessagesEvent(BaseModel):
@@ -55,7 +62,7 @@ class AgentChat:
         ]
 
     @agent.event
-    async def messages(self, messages_event: MessagesEvent) -> list[Message]:
+    async def messages(self, messages_event: MessagesEvent):
         log.info(f"Received messages: {messages_event.messages}")
         #self.messages.extend(messages_event.messages)
 
@@ -71,7 +78,7 @@ class AgentChat:
             raise NonRetryableError(error_message) from e
         else:
             #self.messages.append(assistant_message)
-            return assistant_message
+            return assistant_message["content"]
 
     @agent.event
     async def end(self, end: EndEvent) -> EndEvent:
