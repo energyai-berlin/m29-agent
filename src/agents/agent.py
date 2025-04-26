@@ -63,7 +63,7 @@ class AgentChat:
         try:
             assistant_message = await agent.step(
                 function=llm_chat,
-                function_input=LlmChatInput(messages=self.messages),
+                function_input=LlmChatInput(messages=self.messages+messages_event.messages),
                 start_to_close_timeout=timedelta(seconds=120),
             )
         except Exception as e:
