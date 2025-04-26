@@ -19,7 +19,40 @@ class EndEvent(BaseModel):
 class AgentChat:
     def __init__(self) -> None:
         self.end = False
-        self.messages = []
+        system_prompt = """
+    Respond STRICTLY in English
+
+    Provide a direct, concise, and objective fact-check for the following statement:
+
+    statement: 
+    speaker: 
+    Respond with a valid JSON object containing the following fields:
+
+    {
+      "rating": One of the following: True, Partly true, False, Unverifiable,
+      "confidence": A number between 0 and 1 indicating your confidence,
+      "explanation": "Provide a clear explanation in one concise sentence",
+      "evidence": "Cite specific evidence with numbers, facts, and direct source names",
+      "sources": [
+        {
+          "name": "Source name",
+          "url": "Source URL if available",
+          "credibility_score": 0.0
+        }
+      ]
+    }
+
+    Rating criteria:
+    - True: The statement is accurate and verifiable.
+    - Partly true: The statement contains some truth but also inaccuracies.
+    - False: The statement is inaccurate and verifiably false.
+    - Unverifiable: There isn't enough information to determine accuracy.
+
+    Be direct, precise, and objective. Focus on verifiable facts rather than opinions. Provide concrete evidence.
+    """
+        self.messages = [
+            Message(role="system", content=system_prompt)
+        ]
 
     @agent.event
     async def messages(self, messages_event: MessagesEvent) -> list[Message]:
