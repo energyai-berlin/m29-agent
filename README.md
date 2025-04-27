@@ -1,9 +1,8 @@
 # m29-agent
 
-Restack AI - Agent with chat
+Restack AI - Agent with Chat and Web Search
 
-This repository contains an agent with chat for Restack.
-It demonstrates how to set up a workflow to have a conversation with an AI agent.
+This repository contains an AI agent for Restack that can chat and perform web searches to provide more truthful and up-to-date information, especially useful for fact-checking and gaining more truth in politics.
 
 ## Prerequisites
 
@@ -12,13 +11,13 @@ It demonstrates how to set up a workflow to have a conversation with an AI agent
 
 ## Start Restack
 
-To start the Restack, use the following Docker command:
+To start Restack, use the following Docker command:
 
 ```bash
 docker run -d --pull always --name restack -p 5233:5233 -p 6233:6233 -p 7233:7233 -p 9233:9233 ghcr.io/restackio/restack:main
 ```
 
-## Start python shell
+## Start Python Shell
 
 If using uv:
 
@@ -32,7 +31,7 @@ If using pip:
 python -m venv .venv && source .venv/bin/activate
 ```
 
-## Install dependencies
+## Install Dependencies
 
 If using uv:
 
@@ -48,21 +47,19 @@ pip install -e .
 python -c "from src.services import watch_services; watch_services()"
 ```
 
-## Run agent
+## Run Agent
 
-### from UI
+### From UI
 
 You can run workflows from the UI by clicking the "Run" button.
 
-![Run workflows from UI](./chat_post.png)
+### From API
 
-### from API
-
-You can run workflows from the API by using the generated endpoint:
+You can run workflows from the API using the generated endpoint:
 
 `POST http://localhost:6233/api/agents/AgentChat`
 
-### from any client
+### From Any Client
 
 You can run workflows with any client connected to Restack, for example:
 
@@ -78,23 +75,17 @@ If using pip:
 python -c "from src.schedule_workflow import run_schedule_seed_workflow; run_schedule_seed_workflow()"
 ```
 
-executes `schedule_agent.py` which will connect to Restack and execute the `AgentChat` agent.
+This executes `schedule_agent.py`, which connects to Restack and runs the `AgentChat` agent.
 
-## Send events to the Agent
+## Send Events to the Agent
 
-### from UI
+### From UI
 
-You can send events like message or end from the UI.
+You can send events like messages or end the conversation from the UI and see the events in the run.
 
-![Send events from UI](./chat_put.png)
+### From API
 
-And see the events in the run:
-
-![See events in UI](./chat_run.png)
-
-### from API
-
-You can send events to the agent by using the following endpoint:
+Send events to the agent using the following endpoint:
 
 `PUT http://localhost:6233/api/agents/AgentChat/:agentId/:runId`
 
@@ -119,13 +110,11 @@ or
 }
 ```
 
-to end the conversation with the agent.
+to end the conversation.
 
-### from any client
+### From Any Client
 
-You can send event to the agent workflows with any client connected to Restack, for example:
-
-Modify workflow_id and run_id in event_workflow.py and then run:
+You can send events to the agent workflows with any client connected to Restack. Modify `workflow_id` and `run_id` in `event_workflow.py` and then run:
 
 If using uv:
 
@@ -139,8 +128,8 @@ If using pip:
 python -c "from src.event_agent import run_event_agent; run_event_agent()"
 ```
 
-It will connect to Restack and send 2 events to the agent, one to generate another agent and another one to end the conversation.
+This will connect to Restack and send events to the agent, such as generating another agent or ending the conversation.
 
 ## Deploy on Restack Cloud
 
-To deploy the application on Restack, you can create an account at [https://console.restack.io](https://console.restack.io)
+To deploy the application on Restack, create an account at [https://console.restack.io](https://console.restack.io).
