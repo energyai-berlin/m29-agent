@@ -40,6 +40,8 @@ async def llm_chat(agent_input: LlmChatInput) -> dict[str, str]:
             base_url="https://ai.restack.io", api_key=os.environ.get("RESTACK_API_KEY")
         )
 
+        # OpenAI web search
+
         if agent_input.system_content:
             agent_input.messages.append(
                 {"role": "system", "content": agent_input.system_content}
